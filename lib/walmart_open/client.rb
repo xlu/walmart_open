@@ -6,6 +6,7 @@ require "walmart_open/requests/taxonomy"
 require "walmart_open/requests/token"
 require "walmart_open/requests/place_order"
 require "walmart_open/requests/verify_order"
+require "walmart_open/requests/feed"
 
 module WalmartOpen
   class Client
