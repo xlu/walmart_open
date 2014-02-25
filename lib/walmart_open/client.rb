@@ -5,7 +5,7 @@ require "walmart_open/requests/lookup"
 require "walmart_open/requests/taxonomy"
 require "walmart_open/requests/token"
 require "walmart_open/requests/place_order"
-require "walmart_open/requests/feed"
+require "walmart_open/requests/verify_order"
 
 module WalmartOpen
   class Client
@@ -38,10 +38,18 @@ module WalmartOpen
       connection.request(Requests::Feed.new(type, params))
     end
 
+    def order_1_step(order_info)
+      authenticate!
+      connection.request(Requests::PlaceOrder.new(order_info))
+    end
+
+    # two step order
     def order(order_info)
       authenticate!
 
-      connection.request(Requests::PlaceOrder.new(order_info))
+      # this step does verify only now
+      verify_response = connection.request(Requests::VerifyOrder.new(order_info))
+      # TODO add ExecuteOrder.new(verify_response) later
     end
 
     private
